@@ -1,0 +1,41 @@
+﻿@inherits BlazorLayoutComponent
+@inject AppState state
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        @if (state.IsLoggedIn)
+        {
+            <a href="javascript:void(0)" onclick="@Logout" class="ml-md-auto">Logout</a>
+        }
+        else
+        {
+            <a href="javascript:void(0)" onclick="@Login" class="ml-md-auto">Login</a>
+        }
+
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@functions {
+protected override void OnInit()
+{
+    state.OnChange += StateHasChanged;
+}
+
+async Task Login()
+{
+    await state.Login();
+}
+
+async Task Logout()
+{
+    await state.Logout();
+}
+}
